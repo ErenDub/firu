@@ -1,19 +1,18 @@
 import { setGlobalAccessToken } from "lib/providers/login-provider/context/accessToken";
-import {
-  AuthContext,
-  UserType,
-} from "lib/providers/login-provider/context/authContext";
+import { AuthContext } from "lib/providers/login-provider/context/authContext";
 import { getRefreshToken } from "lib/providers/login-provider/token";
-import { auth, unAuth } from "lib/router/routes";
+import { auth, unAuth, mutual } from "lib/router/routes";
 import { RoutesGenerator } from "lib/router/routes-generator";
 import { refresh } from "modules/login/api/loginFetch";
+import { Tuser } from "modules/login/api/loginType";
+import { NotFound } from "pages/main/denied-pages/not-found";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
   const [checkAuth, setCheckAuth] = useState<string | null>(getRefreshToken());
-  const [userInfo, setUserInfo] = useState<UserType | undefined>();
+  const [userInfo, setUserInfo] = useState<Tuser | undefined>();
   const refreshToken = getRefreshToken() ?? null;
   const refreshObject = { token: refreshToken };
   const $refresh = useMutation(refresh);
@@ -33,8 +32,9 @@ function App() {
   }, []);
 
   const unAuthRoutes = !checkAuth ? RoutesGenerator(unAuth) : null;
-  const authRoutes =
-    checkAuth && userInfo?.role === "user" ? RoutesGenerator(auth) : null;
+  const authRoutes = checkAuth ? RoutesGenerator(auth) : null;
+  const mutualRoutes = RoutesGenerator(mutual);
+
   return (
     <>
       <AuthContext.Provider
@@ -43,8 +43,9 @@ function App() {
         {!$refresh.isLoading && (
           <Routes>
             {unAuthRoutes}
+            {mutualRoutes}
             {authRoutes}
-            <Route path="*" element={<>404</>} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         )}
       </AuthContext.Provider>

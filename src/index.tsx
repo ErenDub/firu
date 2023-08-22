@@ -24,7 +24,7 @@ export const queryClient = new QueryClient({
 });
 root.render(
   <React.StrictMode>
-    <Helmet defaultTitle="TITLE" titleTemplate="%s | TITLE" />
+    <Helmet defaultTitle="Firu" titleTemplate="%s | Firu" />
     <BrowserRouter>
       <ThemeProvider theme={muiTheme}>
         <ErrorBoundary>

@@ -1,23 +1,20 @@
+import { Tuser } from "modules/login/api/loginType";
 import { createContext, useContext } from "react";
-export type UserType = {
-  name: string;
-  email: string;
-  role: string;
-  _id: string;
-};
+
 export type AuthContent = {
   checkAuth?: string | null;
-  userInfo?: UserType;
+  userInfo?: Tuser;
   setCheckAuth: React.Dispatch<React.SetStateAction<string | null>>;
-  setUserInfo: React.Dispatch<React.SetStateAction<UserType | undefined>>;
+  setUserInfo: React.Dispatch<React.SetStateAction<Tuser | undefined>>;
 };
 export const AuthContext = createContext<AuthContent>({
   checkAuth: "",
   userInfo: {
-    name: "",
+    userName: "",
     email: "",
     role: "",
     _id: "",
+    avatar: "",
   },
   setCheckAuth: () => null,
   setUserInfo: () => {},

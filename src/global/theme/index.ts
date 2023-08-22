@@ -2,19 +2,20 @@ import { createTheme } from "@mui/material";
 
 export const muiTheme = createTheme({
   palette: {
+    mode: "dark",
     primary: {
-      main: "#414bb2",
+      main: "#037AEB",
     },
     secondary: {
-      main: "#EB455F",
+      main: "#FFFFFF",
     },
     success: {
       main: "#5E8B7E",
       light: "#8fd14f",
     },
     text: {
-      primary: "#222831",
-      secondary: "#DFD3C3",
+      primary: "#F9F9F9",
+      secondary: "#1c1c1c",
       disabled: "#DDDDDD",
     },
     background: {
@@ -49,74 +50,74 @@ export const muiTheme = createTheme({
   },
 
   typography: {
-    fontFamily: "Roboto",
+    // fontFamily: "MarkGEO-regular",
   },
 });
 
-const { pxToRem, fontFamily } = muiTheme.typography;
+const { pxToRem } = muiTheme.typography;
 
 muiTheme.typography = {
   ...muiTheme.typography,
 
   h1: {
-    fontFamily: "Roboto",
-    fontSize: pxToRem(24),
+    fontFamily: "MarkGEOCAPS-bold !important",
+    fontSize: pxToRem(28),
     lineHeight: pxToRem(32),
-    fontWeight: 600,
     letterSpacing: "0.68px",
+    color: "text.primary",
   },
 
   h2: {
-    fontFamily: "Roboto",
-    fontSize: pxToRem(18),
+    fontFamily: "MarkGEOCAPS-bold !important",
+    fontSize: pxToRem(22),
     lineHeight: pxToRem(24),
-    fontWeight: 600,
     letterSpacing: "0.52px",
+    color: "text.primary",
   },
 
   h3: {
-    fontFamily: "Roboto",
-    fontSize: pxToRem(16),
+    fontFamily: "MarkGEOCAPS-semiBold !important",
+    fontSize: pxToRem(18),
     lineHeight: pxToRem(21),
-    fontWeight: 600,
     letterSpacing: "0.45px",
+    color: "text.primary",
   },
 
   h4: {
-    fontFamily: "Roboto",
-    fontSize: pxToRem(14),
+    fontFamily: "MarkGEOCAPS-semiBold !important",
+    fontSize: pxToRem(16),
     lineHeight: pxToRem(21),
-    fontWeight: 600,
     letterSpacing: "0.45px",
+    color: "text.primary",
   },
 
   body1: {
-    fontFamily,
+    fontFamily: "MarkGEO-regular !important",
     fontSize: pxToRem(15),
     lineHeight: pxToRem(19),
-    fontWeight: 400,
     letterSpacing: "0.52px",
+    color: "text.primary",
   },
 
   body2: {
-    fontFamily,
+    fontFamily: "MarkGEO-regular !important",
     fontSize: pxToRem(14),
     lineHeight: pxToRem(18),
-    fontWeight: 400,
     letterSpacing: "0.52px",
+    color: "text.primary",
   },
 
   caption: {
-    fontFamily,
+    fontFamily: "MarkGEO-regular !important",
     display: "inline-block",
     fontSize: pxToRem(12),
     lineHeight: pxToRem(16),
-    fontWeight: 400,
     letterSpacing: "0.52px",
+    color: "text.primary",
   },
 
   button: {
-    fontFamily: "Roboto",
+    fontFamily: "MarkGEOCAPS-medium",
   },
 };
 
@@ -140,9 +141,27 @@ muiTheme.components = {
       color: "primary",
     },
   },
+  MuiAlertTitle: {
+    defaultProps: {
+      sx: {
+        fontSize: 20,
+        fontFamily: "MarkGEOCAPS-semiBold !important",
+      },
+    },
+  },
   MuiDivider: {
     defaultProps: {
       sx: { borderBottomColor: "#dbdbdb" },
+    },
+  },
+  MuiTextField: {
+    defaultProps: {
+      variant: "filled",
+    },
+  },
+  MuiAlert: {
+    defaultProps: {
+      sx: { border: 0 },
     },
   },
   MuiButton: {
@@ -153,7 +172,7 @@ muiTheme.components = {
       sx: {
         "&.Mui-disabled": {
           opacity: 0.5,
-          color: "text.primary",
+          // color: "text.primary",
         },
       },
     },
@@ -161,7 +180,7 @@ muiTheme.components = {
       {
         props: { variant: "contained" },
         style: {
-          minHeight: 38,
+          minHeight: 45,
           boxShadow:
             "0px 1px 3px -1px rgba(0, 0, 0, 0.3), 0px 2px 5px -1px rgba(50, 50, 93, 0.25)",
           "&:hover": {
@@ -172,13 +191,13 @@ muiTheme.components = {
             boxShadow:
               "0px 2px 3px -1px rgba(0, 0, 0, 0.3), 0px 3px 6px -1px rgba(50, 50, 93, 0.25)",
           },
-          color: "#FFF",
+          // color: "#FFF",
         },
       },
       {
         props: { variant: "outlined" },
         style: {
-          height: 38,
+          height: 45,
           boxShadow:
             "0px 1px 3px -1px rgba(0, 0, 0, 0.15), 0px 2px 5px -1px rgba(50, 50, 93, 0.12)",
           "&:hover": {
@@ -194,7 +213,7 @@ muiTheme.components = {
       {
         props: { variant: "text" },
         style: {
-          height: 38,
+          height: 45,
 
           "&:hover": {
             boxShadow:
@@ -211,18 +230,23 @@ muiTheme.components = {
 
   MuiInputBase: {
     defaultProps: {
-      sx: { fontFamily: "Roboto" },
+      sx: { fontFamily: "MarkGEO-regular" },
     },
   },
-
+  MuiTypography: {
+    defaultProps: {
+      color: "text.primary",
+      fontFamily: "MarkGEO-regular",
+    },
+  },
   MuiTab: {
     defaultProps: {
-      sx: { fontFamily: "Roboto" },
+      sx: { fontFamily: "MarkGEO-regular" },
     },
   },
   MuiTableHead: {
     defaultProps: {
-      sx: { fontFamily: "Roboto" },
+      sx: { fontFamily: "MarkGEO-regular" },
     },
   },
   MuiInputLabel: {
