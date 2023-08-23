@@ -16,16 +16,17 @@ import { setRefreshToken } from "lib/providers/login-provider/token";
 import { setGlobalAccessToken } from "lib/providers/login-provider/context/accessToken";
 import logo from "../../../global/images/firu-logo-lg.png";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-type RegistrationFormFields = {
+import { registration } from "modules/login/api/loginFetch";
+export type RegistrationFormFields = {
   email: string;
-  userName: string;
+  username: string;
   password: string;
   Rpassword: string;
 };
 const Registration = () => {
   const schema = yup.object().shape({
     email: yup.string().email("ელ.ფოსტა შეყვანილია არასწორად!").required(),
-    userName: yup.string().min(4, "შეიყვანეთ მინიმუმ 4 სიმბოლო!").required(),
+    username: yup.string().min(4, "შეიყვანეთ მინიმუმ 4 სიმბოლო!").required(),
     password: yup.string().min(8, "შეიყვანეთ მინიმუმ 8 სიმბოლო!").required(),
     Rpassword: yup
       .string()
@@ -47,37 +48,19 @@ const Registration = () => {
   });
   const navigate = useNavigate();
 
-  //   const $login = useMutation(({ email, password }: AuthInputs) =>
-  //     auth({ email, password })
-  //   );
+  const $registration = useMutation(registration);
 
   const onSubmit = (data: RegistrationFormFields) => {
-    const { email, password } = data;
-    // $login.mutate(
-    //   { email, password },
-    //   {
-    //     onSuccess: (data) => {
-    //       setRefreshToken(data.refreshToken);
-    //       setGlobalAccessToken(data.accessToken);
-    //       setCheckAuth(data.accessToken);
-    //       const user: {
-    //         name: string;
-    //         email: string;
-    //         picture: string;
-    //         role: string;
-    //         _id: string;
-    //         physicalPoints: number;
-    //         ratingPoints: number;
-    //         interest: string;
-    //       } = data.user;
-    //       setUserInfo(user);
-    //       setCheckAuth(data.refreshToken);
-    //       const targetUser = sessionStorage.getItem("target");
-    //       targetUser && sessionStorage.removeItem("target");
-    //       navigate("/");
-    //     },
-    //   }
-    // );
+    $registration.mutate(data, {
+      onSuccess: (data) => {
+        setRefreshToken(data.tokens.refreshToken);
+        setGlobalAccessToken(data.tokens.accessToken);
+        setCheckAuth(data.tokens.accessToken);
+        setUserInfo(data.user);
+        setCheckAuth(data.tokens.refreshToken);
+        navigate("/");
+      },
+    });
   };
   return (
     <Stack alignItems="center" width={1} mt={5}>
@@ -131,7 +114,7 @@ const Registration = () => {
               />
               <Controller
                 control={control}
-                name="userName"
+                name="username"
                 render={({ field, fieldState: { error } }) => (
                   <TextField
                     fullWidth
@@ -139,7 +122,7 @@ const Registration = () => {
                     type="text"
                     required
                     helperText={error?.message}
-                    error={!!errors.userName}
+                    error={!!errors.username}
                     {...field}
                   />
                 )}

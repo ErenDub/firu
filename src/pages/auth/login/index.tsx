@@ -40,19 +40,16 @@ const Login = () => {
 
   const onSubmit = (data: LoginFormFields) => {
     const { email, password } = data;
-    console.log(1);
     $login.mutate(
       { email, password },
       {
         onSuccess: (data) => {
-          setRefreshToken(data.refreshToken);
-          setGlobalAccessToken(data.accessToken);
-          setCheckAuth(data.accessToken);
-
+          console.log(data);
+          setRefreshToken(data.tokens.refreshToken);
+          setGlobalAccessToken(data.tokens.accessToken);
+          setCheckAuth(data.tokens.accessToken);
           setUserInfo(data.user);
-          setCheckAuth(data.refreshToken);
-          const targetUser = sessionStorage.getItem("target");
-          targetUser && sessionStorage.removeItem("target");
+          setCheckAuth(data.tokens.refreshToken);
           navigate("/");
         },
       }

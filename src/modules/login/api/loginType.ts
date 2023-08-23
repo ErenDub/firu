@@ -1,4 +1,3 @@
-import { TResponse } from "lib/request";
 export type Tuser = {
   email: string;
   userName: string;
@@ -10,10 +9,12 @@ export type Tuser = {
 export type TRefresh = {
   accessToken: string;
   user: Tuser;
-} & TResponse;
+};
 
 export type TLogin = {
-  accessToken: string;
-  refreshToken: string;
+  tokens: {
+    accessToken: string;
+    refreshToken: string;
+  };
   user: Tuser;
-} & TResponse;
+};
