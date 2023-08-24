@@ -17,16 +17,17 @@ function App() {
   const refreshObject = { token: refreshToken };
   const $refresh = useMutation(refresh);
   useEffect(() => {
-    $refresh.mutate(refreshObject, {
-      onSuccess: (data) => {
-        data.accessToken
-          ? setGlobalAccessToken(data.accessToken)
-          : setGlobalAccessToken(null);
-        setUserInfo({
-          ...data.user,
-        });
-      },
-    });
+    checkAuth &&
+      $refresh.mutate(refreshObject, {
+        onSuccess: (data) => {
+          data.accessToken
+            ? setGlobalAccessToken(data.accessToken)
+            : setGlobalAccessToken(null);
+          setUserInfo({
+            ...data.user,
+          });
+        },
+      });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

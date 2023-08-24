@@ -8,6 +8,8 @@ export const muiTheme = createTheme({
     },
     secondary: {
       main: "#FFFFFF",
+      dark: "#141721",
+      light: "#24293a",
     },
     success: {
       main: "#5E8B7E",
@@ -19,9 +21,9 @@ export const muiTheme = createTheme({
       disabled: "#DDDDDD",
     },
     background: {
-      default: "#FAF7F0",
+      default: "#1a1d29",
     },
-    divider: "#EDEEF2",
+    divider: "#212121",
     error: {
       main: "#992f2f",
     },
@@ -43,7 +45,7 @@ export const muiTheme = createTheme({
     MuiDivider: {
       styleOverrides: {
         root: {
-          borderColor: "#F4F4F4",
+          borderColor: "#212121",
         },
       },
     },
@@ -151,7 +153,7 @@ muiTheme.components = {
   },
   MuiDivider: {
     defaultProps: {
-      sx: { borderBottomColor: "#dbdbdb" },
+      sx: { borderBottomColor: "#212121" },
     },
   },
   MuiTextField: {

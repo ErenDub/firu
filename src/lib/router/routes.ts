@@ -17,12 +17,12 @@ export type LazyRouteProps = {
 export type Route = LazyRouteProps;
 export const unAuth: Array<Route> = [
   {
-    title: "Login",
+    title: "შესვლა",
     route: "/login",
     component: lazy(() => import("../../pages/auth/login")),
   },
   {
-    title: "Registration",
+    title: "რეგისტრაცია",
     route: "/registration",
     component: lazy(() => import("../../pages/auth/registration")),
   },
@@ -30,14 +30,14 @@ export const unAuth: Array<Route> = [
 
 export const auth: Array<Route> = [
   {
-    title: "Main",
+    title: "მთავარი",
     route: "/admin",
     component: lazy(() => import("../../pages/admin")),
     children: [
       {
-        title: "Home",
-        route: "home",
-        component: lazy(() => import("../../pages/admin/home")),
+        title: "ფილმები",
+        route: "movies",
+        component: lazy(() => import("../../pages/admin/movies")),
       },
     ],
   },
