@@ -2,18 +2,28 @@ import { Helmet } from "react-helmet";
 import { Route } from "react-router-dom";
 
 import { LazyRouteProps } from "./routes";
+import { NoAccess } from "pages/denied-pages/no-access";
 
-export const RoutesGenerator = (routes: LazyRouteProps[]) => {
+export const RoutesGenerator = (
+  routes: LazyRouteProps[],
+  access: (checkPermission: string) => boolean
+) => {
   return routes.map((route) => {
     return route.children ? (
       <Route
         key={route.route}
         path={route.route}
         element={
-          <>
-            <Helmet key={route.title} title={route.title} />
-            <route.component />
-          </>
+          access(route.permission) ? (
+            <>
+              {route.title.length > 0 && (
+                <Helmet key={route.title} title={route.title} />
+              )}
+              <route.component />
+            </>
+          ) : (
+            <NoAccess />
+          )
         }
       >
         {route.children.map((subRoute) => {
@@ -22,10 +32,16 @@ export const RoutesGenerator = (routes: LazyRouteProps[]) => {
               key={subRoute.route}
               path={subRoute.route}
               element={
-                <>
-                  <Helmet key={subRoute.title} title={subRoute.title} />
-                  <subRoute.component />
-                </>
+                access(route.permission) ? (
+                  <>
+                    {route.title.length > 0 && (
+                      <Helmet key={route.title} title={route.title} />
+                    )}
+                    <subRoute.component />
+                  </>
+                ) : (
+                  <NoAccess />
+                )
               }
             />
           );
@@ -36,10 +52,16 @@ export const RoutesGenerator = (routes: LazyRouteProps[]) => {
         key={route.route}
         path={route.route}
         element={
-          <>
-            <Helmet key={route.title} title={route.title} />
-            <route.component />
-          </>
+          access(route.permission) ? (
+            <>
+              {route.title.length > 0 && (
+                <Helmet key={route.title} title={route.title} />
+              )}
+              <route.component />
+            </>
+          ) : (
+            <NoAccess />
+          )
         }
       />
     );

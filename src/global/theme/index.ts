@@ -5,18 +5,25 @@ export const muiTheme = createTheme({
     mode: "dark",
     primary: {
       main: "#037AEB",
+      light: "#02E7F5",
+      100: "#67BDFF",
+      200: "#068DFF",
+      300: "#037AEB",
+      400: "#0063E5",
+      500: "#00386C",
     },
+
     secondary: {
       main: "#FFFFFF",
-      dark: "#141721",
-      light: "#24293a",
+      100: "#24293a",
+      500: "#141721",
     },
     success: {
       main: "#5E8B7E",
       light: "#8fd14f",
     },
     text: {
-      primary: "#F9F9F9",
+      primary: "#f4f4f4",
       secondary: "#1c1c1c",
       disabled: "#DDDDDD",
     },
@@ -132,17 +139,17 @@ muiTheme.components = {
       width: "100%",
     },
   },
-  MuiChip: {
-    defaultProps: {
-      sx: {
-        borderRadius: 0,
-        py: 3,
-        px: 5,
-        width: { lg: "auto", md: "auto", sm: "100%", xs: "100%" },
-      },
-      color: "primary",
-    },
-  },
+  // MuiChip: {
+  //   defaultProps: {
+  //     sx: {
+  //       borderRadius: 0,
+  //       py: 3,
+  //       px: 5,
+  //       width: { lg: "auto", md: "auto", sm: "100%", xs: "100%" },
+  //     },
+  //     color: "primary",
+  //   },
+  // },
   MuiAlertTitle: {
     defaultProps: {
       sx: {
@@ -157,6 +164,11 @@ muiTheme.components = {
     },
   },
   MuiTextField: {
+    defaultProps: {
+      variant: "filled",
+    },
+  },
+  MuiFormControl: {
     defaultProps: {
       variant: "filled",
     },
@@ -199,7 +211,7 @@ muiTheme.components = {
       {
         props: { variant: "outlined" },
         style: {
-          height: 45,
+          minHeight: 45,
           boxShadow:
             "0px 1px 3px -1px rgba(0, 0, 0, 0.15), 0px 2px 5px -1px rgba(50, 50, 93, 0.12)",
           "&:hover": {
@@ -215,7 +227,7 @@ muiTheme.components = {
       {
         props: { variant: "text" },
         style: {
-          height: 45,
+          minHeight: 45,
 
           "&:hover": {
             boxShadow:

@@ -52,7 +52,7 @@ const Admin = () => {
             sx={{
               bgcolor:
                 `${menuItem.path}` === window.location.pathname
-                  ? "secondary.light"
+                  ? "secondary.100"
                   : "transparent",
             }}
           >
@@ -157,8 +157,6 @@ const Admin = () => {
           <Outlet />
         </Box>
       </Box>
-
-      <Typography>Admin Footer</Typography>
     </>
   );
 };

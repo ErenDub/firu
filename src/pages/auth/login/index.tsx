@@ -10,6 +10,8 @@ import { setGlobalAccessToken } from "lib/providers/login-provider/context/acces
 import logo from "../../../global/images/firu-logo-lg.png";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { login } from "modules/login/api/loginFetch";
+import jwt_decode from "jwt-decode";
+
 type LoginFormFields = {
   email: string;
   password: string;
@@ -22,7 +24,7 @@ const Login = () => {
       .required("სავალდებულო ველი!"),
     password: yup.string().min(8, "შეიყვანეთ მინიმუმ 8 სიმბოლო!").required(),
   });
-  const { setCheckAuth, setUserInfo } = useAuthContext();
+  const { setCheckAuth, setUserInfo, setPermissions } = useAuthContext();
   const {
     control,
     handleSubmit,
@@ -44,7 +46,10 @@ const Login = () => {
       { email, password },
       {
         onSuccess: (data) => {
-          console.log(data);
+          const decodedToken: { permissions: Array<string> } = jwt_decode(
+            data.tokens.accessToken
+          );
+          setPermissions(decodedToken.permissions);
           setRefreshToken(data.tokens.refreshToken);
           setGlobalAccessToken(data.tokens.accessToken);
           setCheckAuth(data.tokens.accessToken);
@@ -122,11 +127,7 @@ const Login = () => {
               />
 
               <Stack direction="row">
-                <Button
-                  fullWidth
-                  type="submit"
-                  //  disabled={$login.isLoading}
-                >
+                <Button fullWidth type="submit" disabled={$login.isLoading}>
                   შესვლა
                 </Button>
               </Stack>

@@ -1,11 +1,17 @@
 import { Box, Button, Stack, Alert, AlertTitle } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../../global/images/firu-logo-lg.png";
+import logo from "../../../global/images/firu-logo-lg.png";
 
-export const NotFound = () => {
+export const NoAccess = () => {
   const navigate = useNavigate();
   return (
-    <Stack alignItems="center" width={1} justifyContent="center" height="90vh">
+    <Stack
+      mt={5}
+      alignItems="center"
+      width={1}
+      justifyContent="center"
+      height="90vh"
+    >
       <Stack
         justifyContent="center"
         width={1}
@@ -19,16 +25,16 @@ export const NotFound = () => {
       >
         <Box component="img" src={logo} width={180} mb={4} />
         <Alert
-          severity="warning"
+          severity="error"
           sx={{
             width: { lg: "500px", xs: "300px" },
             border: 0,
           }}
         >
-          <AlertTitle>404 - გვერდი არ არსებობს!</AlertTitle>
-          გვერდი რომელსაც თქვენ ეძებთ არ არსებობს.
+          <AlertTitle>403 - თქვენ არ გაქვთ წვდომა!</AlertTitle>
+          თქვენ არ გაქვთ წვდომა გვერდზე რომელსაც ეძებთ.
         </Alert>
-        <Button color="warning" variant="text" onClick={() => navigate("/")}>
+        <Button color="error" variant="outlined" onClick={() => navigate("/")}>
           მთავარი
         </Button>
       </Stack>

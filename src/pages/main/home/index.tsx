@@ -1,9 +1,16 @@
-import { Typography } from "@mui/material";
+import { MainLayout } from "global/layouts/mainLayout";
+import { Banner } from "modules/home/banner/banner";
+import { BannerSlider } from "modules/sliders/banner-slider/banner-slider";
+import { PosterSlider } from "modules/sliders/poster-slider/poster-slider";
 
 const Home = () => {
   return (
     <>
-      <Typography>Home page</Typography>
+      <Banner />
+      <MainLayout>
+        <PosterSlider />
+        <BannerSlider />
+      </MainLayout>
     </>
   );
 };

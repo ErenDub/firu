@@ -1,17 +1,22 @@
 import { Button, Stack, Typography } from "@mui/material";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import { useNavigate } from "react-router-dom";
 export const MovieCard = ({
   title,
   titleEn,
+  id,
 }: {
   title: string;
   titleEn: string;
+  id: string;
 }) => {
+  const navigate = useNavigate();
   return (
     <Button
       variant="text"
+      onClick={() => navigate(`/admin/edit-movie/${id}`)}
       sx={{
-        bgcolor: "secondary.dark",
+        bgcolor: "secondary.500",
         borderRadius: 1,
         p: 1,
         justifyContent: "space-between",

@@ -17,6 +17,8 @@ import { setGlobalAccessToken } from "lib/providers/login-provider/context/acces
 import logo from "../../../global/images/firu-logo-lg.png";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { registration } from "modules/login/api/loginFetch";
+import jwt_decode from "jwt-decode";
+
 export type RegistrationFormFields = {
   email: string;
   username: string;
@@ -34,7 +36,7 @@ const Registration = () => {
       .oneOf([yup.ref("password")], "პაროლები ერთმანეთს არ ემთხვევა!")
       .required(),
   });
-  const { setCheckAuth, setUserInfo } = useAuthContext();
+  const { setCheckAuth, setUserInfo, setPermissions } = useAuthContext();
   const {
     control,
     handleSubmit,
@@ -53,6 +55,10 @@ const Registration = () => {
   const onSubmit = (data: RegistrationFormFields) => {
     $registration.mutate(data, {
       onSuccess: (data) => {
+        const decodedToken: { permissions: Array<string> } = jwt_decode(
+          data.tokens.accessToken
+        );
+        setPermissions(decodedToken.permissions);
         setRefreshToken(data.tokens.refreshToken);
         setGlobalAccessToken(data.tokens.accessToken);
         setCheckAuth(data.tokens.accessToken);
@@ -162,7 +168,7 @@ const Registration = () => {
                 <Button
                   fullWidth
                   type="submit"
-                  //  disabled={$login.isLoading}
+                  disabled={$registration.isLoading}
                 >
                   დასრულება
                 </Button>

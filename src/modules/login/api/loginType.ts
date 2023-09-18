@@ -7,7 +7,9 @@ export type Tuser = {
 };
 
 export type TRefresh = {
-  accessToken: string;
+  tokens: {
+    accessToken: string;
+  };
   user: Tuser;
 };
 

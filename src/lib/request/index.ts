@@ -25,7 +25,7 @@ export const Request = async <Result>(
   } as any;
 
   route !== "/users" &&
-    route !== "/auth/refresh" &&
+    route !== "/auth/refresh-token" &&
     method === "POST" &&
     toast.loading("Loading");
   const response = await fetch(envRoute, endBody);
