@@ -31,12 +31,8 @@ export const RequestBlob = async <Result extends TResponse>(
     return data;
   } else {
     const error = (await response.json()) as Result;
-    route !== "/protected" &&
-      route !== "/user" &&
-      route !== "/refresh" &&
-      route !== "/quiz/temp" &&
-      error.message &&
-      toast.error(error.message);
+
+    error.message && toast.error(error.message);
     return Promise.reject({
       ...error,
     }) as unknown as Result;

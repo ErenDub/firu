@@ -39,17 +39,6 @@ export const Request = async <Result>(
 
     return data.data;
   } else {
-    // if (response.status === 401) {
-    //   if (
-    //     route !== "/users" &&
-    //     route !== "/auth/refresh-token" &&
-    //     window.location.pathname !== "/login/success"
-    //   ) {
-    //     deleteRefreshToken();
-    //     window.location.pathname = "/";
-    //     toast("Session timed out");
-    //   }
-    // }
     const error = (await response.json()) as TLastResponse;
     route !== "/users" &&
       route !== "/auth/refresh-token" &&
