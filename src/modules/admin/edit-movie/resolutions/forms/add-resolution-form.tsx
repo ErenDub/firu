@@ -23,15 +23,9 @@ const defaultValues = {
 };
 export const AddResolutioeForm = ({
   onClose,
-  seasonId,
-  movieId,
-  episodeId,
   languageId,
 }: {
   onClose: () => void;
-  seasonId: string;
-  movieId: string;
-  episodeId: string;
   languageId: string;
 }) => {
   const schema = yup.object().shape({
@@ -43,6 +37,7 @@ export const AddResolutioeForm = ({
     control,
     reset,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<AddResolutionFields>({
     defaultValues: defaultValues,
@@ -52,7 +47,7 @@ export const AddResolutioeForm = ({
   const $addResolution = useMutation(addResolution);
   const onSubmit = (resolution: AddResolutionFields) => {
     $addResolution.mutate(
-      { resolution, movieId, seasonId, episodeId, languageId },
+      { resolution, languageId },
       {
         onSuccess: (movieId) => {
           queryClient.invalidateQueries({ active: true });
@@ -101,7 +96,7 @@ export const AddResolutioeForm = ({
             name="player"
             render={({ field, fieldState: { error } }) => (
               <FormControlLabel
-                control={<Switch />}
+                control={<Switch checked={watch("player")} />}
                 label="ჩვენი პლეერი: "
                 labelPlacement="start"
                 {...field}

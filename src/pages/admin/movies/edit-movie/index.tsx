@@ -19,7 +19,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQuery } from "react-query";
 import {
-  addNewMovie,
+  editMovie,
   getCategories,
   getDirectors,
   getStudios,
@@ -28,6 +28,9 @@ import {
 import { getEditMovie } from "modules/admin/admin-fetch";
 import { useParams } from "react-router-dom";
 import { Seasons } from "modules/admin/edit-movie/seasons/seasons";
+import { useAuthContext } from "lib/providers/login-provider/context/authContext";
+import toast from "react-hot-toast";
+import { DeleteMovieDialog } from "modules/admin/edit-movie/delete-movie/delete-movie-dialog";
 const countries = ["აშშ", "იაპონია", "კორეა", "ჩინეთი", "საფრანგეთი", "კანადა"];
 const ageLimits = ["G", "PG", "PG-13", "R", "X"];
 const types = ["ფილმი", "სერიალი", "ანიმე"];
@@ -48,7 +51,8 @@ export type editMovieFields = {
   tags: Array<string>;
   type: string;
   visible: boolean;
-  rePlace: boolean;
+  trailer: string;
+  franchise: string;
 };
 const EditMovie = () => {
   const { movieId } = useParams();
@@ -68,7 +72,8 @@ const EditMovie = () => {
     age: yup.string().required(),
     type: yup.string().required(),
     visible: yup.boolean().required(),
-    rePlace: yup.boolean().required(),
+    trailer: yup.string().required(),
+    franchise: yup.string().required(),
     categories: yup.array().of(yup.string().required()).required(),
     tags: yup.array().of(yup.string().required()).required(),
   });
@@ -77,6 +82,7 @@ const EditMovie = () => {
     control,
     reset,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<editMovieFields>({
     defaultValues: {
@@ -93,7 +99,8 @@ const EditMovie = () => {
       imdb: "",
       age: "",
       visible: false,
-      rePlace: false,
+      trailer: "",
+      franchise: "",
       type: "ფილმი",
       categories: [],
       tags: [],
@@ -120,6 +127,8 @@ const EditMovie = () => {
           directors,
           studios,
           categories,
+          trailer,
+          franchise,
           tags,
           poster,
           visible,
@@ -137,32 +146,27 @@ const EditMovie = () => {
           directors,
           studios,
           categories,
+          trailer,
+          franchise,
           tags,
           poster,
           visible,
         }))(movie);
-        reset({ ...formData, rePlace: false });
+        reset({ ...formData });
       },
     }
   );
-  const $addNewMovie = useMutation(addNewMovie);
+  const $addNewMovie = useMutation(editMovie);
   const $tags = useQuery("tags", getTags);
   const $directors = useQuery("directors", getDirectors);
   const $studios = useQuery("studios", getStudios);
   const $categorues = useQuery("categories", getCategories);
-
+  const { access } = useAuthContext();
   const onSubmit = (movie: editMovieFields) => {
     console.log(movie);
-    // access("add_new_movie")
-    //   ? $addNewMovie.mutate(
-    //       { movie },
-    //       {
-    //         onSuccess: (movieId) => {
-    //           navigate(`/admin/edit-movie/${movieId._id}`);
-    //         },
-    //       }
-    //     )
-    //   : toast.error("თქვენ არ გაქვთ წვდომა");
+    access("edit_movie")
+      ? $addNewMovie.mutate({ movie, id: $getEditMovie.data?.id! })
+      : toast.error("თქვენ არ გაქვთ წვდომა");
   };
   return (
     <Box>
@@ -522,6 +526,41 @@ const EditMovie = () => {
                   )}
                 />
               </Stack>
+              <Stack
+                direction={{ sx: "row", md: "row", sm: "column", xs: "column" }}
+                gap={2}
+              >
+                <Controller
+                  control={control}
+                  name="trailer"
+                  render={({ field, fieldState: { error } }) => (
+                    <TextField
+                      fullWidth
+                      label="ტრეილერი"
+                      type="string"
+                      required
+                      helperText={error?.message}
+                      error={!!errors.trailer}
+                      {...field}
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="franchise"
+                  render={({ field, fieldState: { error } }) => (
+                    <TextField
+                      fullWidth
+                      label="ფრენჩიზა"
+                      type="string"
+                      required
+                      helperText={error?.message}
+                      error={!!errors.franchise}
+                      {...field}
+                    />
+                  )}
+                />
+              </Stack>
               {$tags.isLoading && <Skeleton height={55} />}
               {$tags.data && (
                 <Controller
@@ -569,27 +608,15 @@ const EditMovie = () => {
                   name="visible"
                   render={({ field, fieldState: { error } }) => (
                     <FormControlLabel
-                      control={<Switch />}
+                      control={<Switch checked={watch("visible")} />}
                       label="გამოჩენა: "
                       labelPlacement="start"
                       {...field}
                     />
                   )}
                 />
-                <Controller
-                  control={control}
-                  name="rePlace"
-                  render={({ field, fieldState: { error } }) => (
-                    <FormControlLabel
-                      control={<Switch />}
-                      label="თავში გადატანა: "
-                      labelPlacement="start"
-                      {...field}
-                    />
-                  )}
-                />
               </Stack>
-              <Stack direction="row">
+              <Stack direction="row" gap={2}>
                 <Button
                   fullWidth
                   type="submit"
@@ -597,6 +624,10 @@ const EditMovie = () => {
                 >
                   შენახვა
                 </Button>
+                <DeleteMovieDialog
+                  title={$getEditMovie.data.title}
+                  movieId={$getEditMovie.data.id}
+                />
               </Stack>
             </Stack>
           </form>

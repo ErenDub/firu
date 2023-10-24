@@ -134,11 +134,11 @@ export const PosterSlider = () => {
         </Stack>
       </Stack>
       <Swiper {...swiperParams} className="mySwiper">
-        {arr.map((movie) => (
+        {/* {arr.map((movie) => (
           <SwiperSlide key={movie}>
             <PosterSliderItem img={movie} />
           </SwiperSlide>
-        ))}
+        ))} */}
       </Swiper>
     </Box>
   );

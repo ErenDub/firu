@@ -1,4 +1,4 @@
-export type TAddNewMovie = { _id: number };
+export type TAddNewMovie = { id: string };
 export type TGetMoviesItem = {
   poster: string;
   banner: string;
@@ -12,6 +12,26 @@ export type TGetMoviesItem = {
 export type TgetMovies = {
   total: number;
   movies: Array<TGetMoviesItem>;
+};
+export type TGetTopMoviesItem = {
+  poster: string;
+  banner: string;
+  title: string;
+  titleEn: string;
+  year: number;
+  seasonsCount: number;
+  lastSeasonEpCount: number;
+  id: string;
+  age: string;
+  duration: number;
+  description: string;
+  trailer: string;
+  logo: string;
+  categories: Array<string>;
+};
+export type TgetTopMovies = {
+  total: number;
+  movies: Array<TGetTopMoviesItem>;
 };
 export type TResolution = {
   id: string;
@@ -64,6 +84,8 @@ export type TMovie = {
   directors: Array<string>;
   studios: Array<string>;
   categories: Array<string>;
+  trailer: string;
+  franchise: string;
   tags: Array<string>;
 };
 export type TGetMovie = {
@@ -85,3 +107,4 @@ export type TDeleteLanguage = {};
 export type TAddResolution = {};
 export type TEditResolution = {};
 export type TDeleteResolution = {};
+export type TDeleteMovie = {};

@@ -4,15 +4,7 @@ import { AddLanguageDialog } from "../languages/dialogs/add-language-dialog";
 import { Langauges } from "../languages/languages";
 import { DeleteEpisodeDialog } from "./dialogs/delete-episode-dialog";
 import { EditEpisodeDialog } from "./dialogs/edit-episode-dialog";
-export const Episodes = ({
-  movieId,
-  seasonId,
-  episodes,
-}: {
-  movieId: string;
-  seasonId: string;
-  episodes: Array<TEpisode>;
-}) => {
+export const Episodes = ({ episodes }: { episodes: Array<TEpisode> }) => {
   return (
     <Box border="1px dashed green">
       {episodes?.map((episode) => (
@@ -20,30 +12,15 @@ export const Episodes = ({
           <Stack direction="row" alignItems="center" gap={4}>
             <Typography variant="h2">{episode.title}</Typography>
             <Stack direction="row" alignItems="center" gap={2}>
-              <EditEpisodeDialog
-                movieId={movieId}
-                seasonId={seasonId}
-                episode={episode}
-              />
+              <EditEpisodeDialog episode={episode} />
               <DeleteEpisodeDialog
-                movieId={movieId}
-                seasonId={seasonId}
                 episodeId={episode.id}
                 title={episode.title}
               />
             </Stack>
           </Stack>
-          <Langauges
-            seasonId={seasonId}
-            movieId={movieId}
-            episodeId={episode.id}
-            languages={episode.languages}
-          />
-          <AddLanguageDialog
-            movieId={movieId}
-            seasonId={seasonId}
-            episodeId={episode.id}
-          />
+          <Langauges languages={episode.languages} />
+          <AddLanguageDialog episodeId={episode.id} />
         </Box>
       ))}
     </Box>

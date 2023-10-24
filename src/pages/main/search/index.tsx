@@ -3,6 +3,7 @@ import {
   Button,
   ButtonGroup,
   Grid,
+  Skeleton,
   Stack,
   TextField,
 } from "@mui/material";
@@ -69,6 +70,11 @@ const Search = () => {
           ))}
         </ButtonGroup>
       </Stack>
+      {$search.isLoading && (
+        <Box mt={4}>
+          <Skeleton height={200} />
+        </Box>
+      )}
       {$search.data && (
         <Box mt={4}>
           <Grid container spacing={5} justifyContent="center">

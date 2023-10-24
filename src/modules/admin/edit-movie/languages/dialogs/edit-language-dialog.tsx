@@ -14,17 +14,7 @@ const Transition = forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-export const EditLanguageDialog = ({
-  movieId,
-  seasonId,
-  episodeId,
-  language,
-}: {
-  movieId: string;
-  seasonId: string;
-  episodeId: string;
-  language: TLanguage;
-}) => {
+export const EditLanguageDialog = ({ language }: { language: TLanguage }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -50,9 +40,6 @@ export const EditLanguageDialog = ({
         <DialogContent>
           <EditLanguageForm
             onClose={handleClose}
-            seasonId={seasonId}
-            movieId={movieId}
-            episodeId={episodeId}
             languageId={language.id}
             defaultValues={{
               language: language.language,

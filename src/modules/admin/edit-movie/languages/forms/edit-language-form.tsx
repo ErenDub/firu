@@ -10,16 +10,10 @@ export type EditLanguageFields = {
 
 export const EditLanguageForm = ({
   onClose,
-  seasonId,
-  movieId,
-  episodeId,
   languageId,
   defaultValues,
 }: {
   onClose: () => void;
-  seasonId: string;
-  movieId: string;
-  episodeId: string;
   languageId: string;
   defaultValues: EditLanguageFields;
 }) => {
@@ -39,7 +33,7 @@ export const EditLanguageForm = ({
   const $editLanguage = useMutation(editLanguage);
   const onSubmit = (language: EditLanguageFields) => {
     $editLanguage.mutate(
-      { language, movieId, seasonId, episodeId, languageId },
+      { language, languageId },
       {
         onSuccess: (movieId) => {
           queryClient.invalidateQueries({ active: true });

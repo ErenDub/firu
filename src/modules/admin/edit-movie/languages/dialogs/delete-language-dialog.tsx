@@ -23,15 +23,9 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export const DeleteLanguageDialog = ({
-  movieId,
-  seasonId,
-  episodeId,
   languageId,
   language,
 }: {
-  movieId: string;
-  seasonId: string;
-  episodeId: string;
   languageId: string;
   language: string;
 }) => {
@@ -45,7 +39,7 @@ export const DeleteLanguageDialog = ({
   const $deleteSeason = useMutation(deleteLanguage);
   const onSubmit = () => {
     $deleteSeason.mutate(
-      { movieId, seasonId, episodeId, languageId },
+      { languageId },
       {
         onSuccess: (movieId) => {
           queryClient.invalidateQueries({ active: true });

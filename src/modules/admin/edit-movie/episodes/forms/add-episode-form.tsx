@@ -23,11 +23,9 @@ const defaultValues = {
 export const AddEpisodeForm = ({
   onClose,
   seasonId,
-  movieId,
 }: {
   onClose: () => void;
   seasonId: string;
-  movieId: string;
 }) => {
   const schema = yup.object().shape({
     title: yup.string().required(),
@@ -50,7 +48,7 @@ export const AddEpisodeForm = ({
   const $addEpisode = useMutation(addEpisode);
   const onSubmit = (episode: AddEpisodeFields) => {
     $addEpisode.mutate(
-      { episode, movieId, seasonId },
+      { episode, seasonId },
       {
         onSuccess: (movieId) => {
           queryClient.invalidateQueries({ active: true });

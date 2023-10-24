@@ -12,13 +12,9 @@ const defaultValues = {
 };
 export const AddLanguageForm = ({
   onClose,
-  seasonId,
-  movieId,
   episodeId,
 }: {
   onClose: () => void;
-  seasonId: string;
-  movieId: string;
   episodeId: string;
 }) => {
   const schema = yup.object().shape({
@@ -37,7 +33,7 @@ export const AddLanguageForm = ({
   const $addLanguage = useMutation(addLanguage);
   const onSubmit = (language: AddLanguageFields) => {
     $addLanguage.mutate(
-      { language, movieId, seasonId, episodeId },
+      { language, episodeId },
       {
         onSuccess: (movieId) => {
           queryClient.invalidateQueries({ active: true });

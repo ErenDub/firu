@@ -31,6 +31,12 @@ import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { useAuthContext } from "lib/providers/login-provider/context/authContext";
 import PaletteRoundedIcon from "@mui/icons-material/PaletteRounded";
+import { logout } from "modules/login/api/loginFetch";
+import { useMutation } from "react-query";
+import {
+  deleteRefreshToken,
+  getRefreshToken,
+} from "lib/providers/login-provider/token";
 const drawerWidth = 260;
 
 const pages = [
@@ -67,7 +73,7 @@ const settings = [
 ];
 export const Header = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const { checkAuth } = useAuthContext();
+  const { checkAuth, setCheckAuth, setUserInfo } = useAuthContext();
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -81,28 +87,47 @@ export const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  const $logout = useMutation((refreshObject: { refreshToken: string }) =>
+    logout(refreshObject)
+  );
+  const onLogOut = () => {
+    const refreshToken = getRefreshToken() ?? "null";
+    const refreshObject = { refreshToken };
+    $logout.mutate(refreshObject, {
+      onSuccess: (data) => {
+        setCheckAuth(null);
+        setUserInfo(undefined);
+        deleteRefreshToken();
+        setAnchorElUser(null);
+      },
+    });
+  };
   const drawer = (
     <div>
       <Toolbar />
 
       <List>
-        <ListItem disablePadding onClick={() => navigate("/login")}>
-          <ListItemButton>
-            <ListItemIcon>
-              <PersonRoundedIcon />
-            </ListItemIcon>
-            <ListItemText primary="ავტორიზაცია" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding onClick={() => navigate("/register")}>
-          <ListItemButton>
-            <ListItemIcon>
-              <PersonAddAltRoundedIcon />
-            </ListItemIcon>
-            <ListItemText primary="რეგისტრაცია" />
-          </ListItemButton>
-        </ListItem>
+        {!checkAuth && (
+          <>
+            <ListItem disablePadding onClick={() => navigate("/login")}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <PersonRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="ავტორიზაცია" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding onClick={() => navigate("/register")}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <PersonAddAltRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="რეგისტრაცია" />
+              </ListItemButton>
+            </ListItem>
+          </>
+        )}
+
         <ListItem
           disablePadding
           onClick={() => navigate("/search")}
@@ -165,7 +190,12 @@ export const Header = () => {
             }}
           />
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -185,7 +215,7 @@ export const Header = () => {
                 keepMounted: true, // Better open performance on mobile.
               }}
               sx={{
-                display: { xs: "block", sm: "none" },
+                display: { xs: "block", md: "none" },
                 "& .MuiDrawer-paper": {
                   boxSizing: "border-box",
                   width: drawerWidth,
@@ -248,11 +278,16 @@ export const Header = () => {
               ძებნა
             </Button>
             {checkAuth ? (
-              <Tooltip title="პარამეტრები">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
+              <Stack direction="row" alignItems="center">
+                <Tooltip title="პარამეტრები">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src="/static/images/avatar/2.jpg"
+                    />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
             ) : (
               <Stack
                 direction="row"
@@ -279,7 +314,6 @@ export const Header = () => {
                 </Button>
               </Stack>
             )}
-
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
@@ -310,7 +344,7 @@ export const Header = () => {
                   <Typography textAlign="center">{setting.title}</Typography>
                 </MenuItem>
               ))}
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={onLogOut}>
                 <Typography textAlign="center" color="error">
                   გასვლა
                 </Typography>

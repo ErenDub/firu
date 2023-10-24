@@ -58,7 +58,7 @@ export const BannerSliderItem = ({
           opacity: showHover ? 1 : 0,
           position: "absolute",
           cursor: "pointer",
-          // bottom: showHover ? 0 : -30,
+          bottom: showHover ? 0 : -30,
           top: "50%",
           left: "50%",
           transform: `translate(-50%, ${showHover ? "-60%" : "-100%"})`,

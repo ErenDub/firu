@@ -21,17 +21,7 @@ const Transition = forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-export const AddResolutionDialog = ({
-  movieId,
-  seasonId,
-  episodeId,
-  languageId,
-}: {
-  movieId: string;
-  seasonId: string;
-  episodeId: string;
-  languageId: string;
-}) => {
+export const AddResolutionDialog = ({ languageId }: { languageId: string }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -76,13 +66,7 @@ export const AddResolutionDialog = ({
       >
         <DialogTitle>რეზოლუციის დამატება</DialogTitle>
         <DialogContent>
-          <AddResolutioeForm
-            onClose={handleClose}
-            seasonId={seasonId}
-            movieId={movieId}
-            episodeId={episodeId}
-            languageId={languageId}
-          />
+          <AddResolutioeForm onClose={handleClose} languageId={languageId} />
         </DialogContent>
       </Dialog>
     </Box>

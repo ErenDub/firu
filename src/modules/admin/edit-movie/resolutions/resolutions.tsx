@@ -4,16 +4,8 @@ import { DeleteResolutionDialog } from "./dialogs/delete-resolution-dialog";
 import { EditResolutionDialog } from "./dialogs/edit-resolution-dialog";
 
 export const Resolutions = ({
-  seasonId,
-  movieId,
-  episodeId,
-  languageId,
   resolutions,
 }: {
-  seasonId: string;
-  movieId: string;
-  episodeId: string;
-  languageId: string;
   resolutions: Array<TResolution>;
 }) => {
   return (
@@ -24,20 +16,12 @@ export const Resolutions = ({
             <Typography variant="h3">{resolution.resolution}</Typography>
             <Stack direction="row" alignItems="center" gap={2}>
               <EditResolutionDialog
-                episodeId={episodeId}
-                languageId={languageId}
-                movieId={movieId}
                 resolution={resolution}
                 resolutionId={resolution.id}
-                seasonId={seasonId}
               />
               <DeleteResolutionDialog
-                episodeId={episodeId}
-                languageId={languageId}
-                movieId={movieId}
                 resolution={resolution.resolution}
                 resolutionId={resolution.id}
-                seasonId={seasonId}
               />
             </Stack>
           </Stack>

@@ -21,15 +21,7 @@ const Transition = forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-export const AddLanguageDialog = ({
-  movieId,
-  seasonId,
-  episodeId,
-}: {
-  movieId: string;
-  seasonId: string;
-  episodeId: string;
-}) => {
+export const AddLanguageDialog = ({ episodeId }: { episodeId: string }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -74,12 +66,7 @@ export const AddLanguageDialog = ({
       >
         <DialogTitle>ენის დამატება</DialogTitle>
         <DialogContent>
-          <AddLanguageForm
-            onClose={handleClose}
-            seasonId={seasonId}
-            movieId={movieId}
-            episodeId={episodeId}
-          />
+          <AddLanguageForm onClose={handleClose} episodeId={episodeId} />
         </DialogContent>
       </Dialog>
     </Box>

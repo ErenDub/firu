@@ -23,17 +23,9 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export const DeleteResolutionDialog = ({
-  movieId,
-  seasonId,
-  episodeId,
-  languageId,
   resolutionId,
   resolution,
 }: {
-  movieId: string;
-  seasonId: string;
-  episodeId: string;
-  languageId: string;
   resolutionId: string;
   resolution: string;
 }) => {
@@ -47,7 +39,7 @@ export const DeleteResolutionDialog = ({
   const $deleteSeason = useMutation(deleteResolution);
   const onSubmit = () => {
     $deleteSeason.mutate(
-      { movieId, seasonId, episodeId, languageId, resolutionId },
+      { resolutionId },
       {
         onSuccess: (movieId) => {
           queryClient.invalidateQueries({ active: true });

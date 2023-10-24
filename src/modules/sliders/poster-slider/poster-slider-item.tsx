@@ -1,14 +1,27 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
 import PlayCircleOutlineRoundedIcon from "@mui/icons-material/PlayCircleOutlineRounded";
-export const PosterSliderItem = ({ img }: { img: string }) => {
+import { useNavigate } from "react-router-dom";
+export const PosterSliderItem = ({
+  poster,
+  title,
+  titleEn,
+  id,
+}: {
+  poster: string;
+  title: string;
+  titleEn: string;
+  id: string;
+}) => {
   const [showHover, setShowHover] = useState(false);
+  const navigate = useNavigate();
   return (
     <Box
       width={{ lg: 240, md: 240, sm: 128, xs: 128 }}
       height={{ lg: 360, md: 360, sm: 192, xs: 192 }}
       onMouseOver={() => setShowHover(true)}
       onMouseLeave={() => setShowHover(false)}
+      onClick={() => navigate(`/watch/${id}`)}
       sx={{
         position: "relative",
       }}
@@ -27,7 +40,7 @@ export const PosterSliderItem = ({ img }: { img: string }) => {
       <Box
         sx={{
           transition: "opacity 0.2s, bottom 0.4s",
-          // opacity: showHover ? 1 : 0,
+          opacity: showHover ? 1 : 0,
           position: "absolute",
           cursor: "pointer",
           p: 1,
@@ -35,8 +48,8 @@ export const PosterSliderItem = ({ img }: { img: string }) => {
           objectFit: "cover",
         }}
       >
-        <Typography variant="h4">ფილმის სახელი</Typography>
-        <Typography>Movie name</Typography>
+        <Typography variant="h4">{title}</Typography>
+        <Typography>{titleEn}</Typography>
       </Box>
       <Box
         sx={{
@@ -60,7 +73,7 @@ export const PosterSliderItem = ({ img }: { img: string }) => {
       </Box>
       <Box
         component="img"
-        src={img}
+        src={poster}
         loading="lazy"
         sx={{
           width: { lg: 240, md: 240, sm: 128, xs: 128 },

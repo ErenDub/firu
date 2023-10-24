@@ -1,8 +1,9 @@
 import { Box, Button, Chip, Stack, Typography } from "@mui/material";
 import { ParallaxBanner, ParallaxProvider } from "react-scroll-parallax";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-import OndemandVideoRoundedIcon from "@mui/icons-material/OndemandVideoRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import { MovieTrailerDialog } from "../dialogs/movie-trailer-dialog";
+import { MutableRefObject } from "react";
 export const Banner = ({
   logo,
   age,
@@ -16,6 +17,8 @@ export const Banner = ({
   banner,
   lastSeasonEpCount,
   duration,
+  trailer,
+  scrollEpisodesRef,
 }: {
   logo: string;
   age: string;
@@ -29,6 +32,8 @@ export const Banner = ({
   banner: string;
   lastSeasonEpCount: string;
   duration: number;
+  trailer: string;
+  scrollEpisodesRef: MutableRefObject<HTMLElement | null>;
 }) => {
   return (
     <Box
@@ -197,16 +202,20 @@ export const Banner = ({
               }}
               mt={4}
             >
-              <Button color="secondary" startIcon={<PlayArrowRoundedIcon />}>
-                ყურება
-              </Button>
               <Button
                 color="secondary"
-                variant="outlined"
-                startIcon={<OndemandVideoRoundedIcon />}
+                startIcon={<PlayArrowRoundedIcon />}
+                onClick={() => {
+                  scrollEpisodesRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                    inline: "center",
+                  });
+                }}
               >
-                ტრეილერი
+                ყურება
               </Button>
+              <MovieTrailerDialog trailer={trailer} />
               <Button
                 color="secondary"
                 variant="outlined"

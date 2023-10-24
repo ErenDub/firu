@@ -19,18 +19,12 @@ export type EditResolutionFields = {
 
 export const EditResolutioeForm = ({
   onClose,
-  seasonId,
-  movieId,
-  episodeId,
-  languageId,
+
   resolutionId,
   defaultValues,
 }: {
   onClose: () => void;
-  seasonId: string;
-  movieId: string;
-  episodeId: string;
-  languageId: string;
+
   resolutionId: string;
   defaultValues: EditResolutionFields;
 }) => {
@@ -43,6 +37,7 @@ export const EditResolutioeForm = ({
     control,
     reset,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<EditResolutionFields>({
     defaultValues: defaultValues,
@@ -52,7 +47,7 @@ export const EditResolutioeForm = ({
   const $editResolution = useMutation(editResolution);
   const onSubmit = (resolution: EditResolutionFields) => {
     $editResolution.mutate(
-      { resolution, movieId, seasonId, episodeId, languageId, resolutionId },
+      { resolution, resolutionId },
       {
         onSuccess: (movieId) => {
           queryClient.invalidateQueries({ active: true });
@@ -101,7 +96,7 @@ export const EditResolutioeForm = ({
             name="player"
             render={({ field, fieldState: { error } }) => (
               <FormControlLabel
-                control={<Switch />}
+                control={<Switch checked={watch("player")} />}
                 label="ჩვენი პლეერი: "
                 labelPlacement="start"
                 {...field}

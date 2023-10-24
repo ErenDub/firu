@@ -15,17 +15,9 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export const EditResolutionDialog = ({
-  movieId,
-  seasonId,
-  episodeId,
-  languageId,
   resolutionId,
   resolution,
 }: {
-  movieId: string;
-  seasonId: string;
-  episodeId: string;
-  languageId: string;
   resolutionId: string;
   resolution: TResolution;
 }) => {
@@ -55,10 +47,6 @@ export const EditResolutionDialog = ({
         <DialogContent>
           <EditResolutioeForm
             onClose={handleClose}
-            seasonId={seasonId}
-            movieId={movieId}
-            episodeId={episodeId}
-            languageId={languageId}
             resolutionId={resolutionId}
             defaultValues={{
               player: resolution.player,

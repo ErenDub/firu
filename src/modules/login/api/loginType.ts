@@ -20,3 +20,5 @@ export type TLogin = {
   };
   user: Tuser;
 };
+
+export type TLogOut = {};

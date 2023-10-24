@@ -21,13 +21,7 @@ const Transition = forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-export const AddEpisodeDialog = ({
-  movieId,
-  seasonId,
-}: {
-  movieId: string;
-  seasonId: string;
-}) => {
+export const AddEpisodeDialog = ({ seasonId }: { seasonId: string }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -72,11 +66,7 @@ export const AddEpisodeDialog = ({
       >
         <DialogTitle>ეპიზოდის დამატება</DialogTitle>
         <DialogContent>
-          <AddEpisodeForm
-            onClose={handleClose}
-            seasonId={seasonId}
-            movieId={movieId}
-          />
+          <AddEpisodeForm onClose={handleClose} seasonId={seasonId} />
         </DialogContent>
       </Dialog>
     </Box>

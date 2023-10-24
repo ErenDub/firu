@@ -54,6 +54,8 @@ export type AddMovieFields = {
   categories: Array<string>;
   tags: Array<string>;
   type: string;
+  trailer: string;
+  franchise: string;
 };
 const AddMovie = () => {
   const schema = yup.object().shape({
@@ -70,6 +72,8 @@ const AddMovie = () => {
     imdb: yup.string().required(),
     age: yup.string().required(),
     type: yup.string().required(),
+    trailer: yup.string().required(),
+    franchise: yup.string().required(),
     categories: yup.array().of(yup.string().required()).required(),
     tags: yup.array().of(yup.string().required()).required(),
   });
@@ -93,6 +97,8 @@ const AddMovie = () => {
       description: "",
       imdb: "",
       age: "",
+      trailer: "",
+      franchise: "",
       type: "ფილმი",
       categories: [],
       tags: [],
@@ -107,13 +113,12 @@ const AddMovie = () => {
   const $categorues = useQuery("categories", getCategories);
 
   const onSubmit = (movie: AddMovieFields) => {
-    console.log(movie);
     access("add_new_movie")
       ? $addNewMovie.mutate(
           { movie },
           {
             onSuccess: (movieId) => {
-              navigate(`/admin/edit-movie/${movieId._id}`);
+              navigate(`/admin/edit-movie/${movieId.id}`);
             },
           }
         )
@@ -465,6 +470,42 @@ const AddMovie = () => {
                   </Select>
                   <FormHelperText>{error?.message}</FormHelperText>
                 </FormControl>
+              )}
+            />
+          </Stack>
+
+          <Stack
+            direction={{ sx: "row", md: "row", sm: "column", xs: "column" }}
+            gap={2}
+          >
+            <Controller
+              control={control}
+              name="trailer"
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  fullWidth
+                  label="ტრეილერი"
+                  type="string"
+                  required
+                  helperText={error?.message}
+                  error={!!errors.trailer}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="franchise"
+              render={({ field, fieldState: { error } }) => (
+                <TextField
+                  fullWidth
+                  label="ფრენჩიზა"
+                  type="string"
+                  required
+                  helperText={error?.message}
+                  error={!!errors.franchise}
+                  {...field}
+                />
               )}
             />
           </Stack>

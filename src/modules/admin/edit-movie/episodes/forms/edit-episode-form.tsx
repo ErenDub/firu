@@ -15,14 +15,10 @@ export type EditEpisodeFields = {
 
 export const EditEpisodeForm = ({
   onClose,
-  seasonId,
-  movieId,
   episodeId,
   defaultValues,
 }: {
   onClose: () => void;
-  seasonId: string;
-  movieId: string;
   episodeId: string;
   defaultValues: EditEpisodeFields;
 }) => {
@@ -47,7 +43,7 @@ export const EditEpisodeForm = ({
   const $editEpisode = useMutation(editEpisode);
   const onSubmit = (episode: EditEpisodeFields) => {
     $editEpisode.mutate(
-      { episode, movieId, seasonId, episodeId },
+      { episode, episodeId },
       {
         onSuccess: (movieId) => {
           queryClient.invalidateQueries({ active: true });

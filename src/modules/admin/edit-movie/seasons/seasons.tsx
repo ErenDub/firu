@@ -30,12 +30,8 @@ export const Seasons = ({
               </Stack>
             </Stack>
 
-            <Episodes
-              movieId={id}
-              seasonId={season.id}
-              episodes={season.episodes}
-            />
-            <AddEpisodeDialog movieId={id} seasonId={season.id} />
+            <Episodes episodes={season.episodes} />
+            <AddEpisodeDialog seasonId={season.id} />
           </Box>
         ))}
         <AddSeasonDialog id={id} />

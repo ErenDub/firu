@@ -14,15 +14,7 @@ const Transition = forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-export const EditEpisodeDialog = ({
-  movieId,
-  seasonId,
-  episode,
-}: {
-  movieId: string;
-  seasonId: string;
-  episode: TEpisode;
-}) => {
+export const EditEpisodeDialog = ({ episode }: { episode: TEpisode }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -48,8 +40,6 @@ export const EditEpisodeDialog = ({
         <DialogContent>
           <EditEpisodeForm
             onClose={handleClose}
-            seasonId={seasonId}
-            movieId={movieId}
             episodeId={episode.id}
             defaultValues={{
               title: episode.title,

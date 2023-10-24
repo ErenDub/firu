@@ -6,6 +6,7 @@ import {
   TAddSeason,
   TDeleteEpisode,
   TDeleteLanguage,
+  TDeleteMovie,
   TDeleteResolution,
   TDeleteSeason,
   TEditLanguage,
@@ -23,24 +24,33 @@ import { AddLanguageFields } from "./edit-movie/languages/forms/add-language-for
 import { AddResolutionFields } from "./edit-movie/resolutions/forms/add-resolution-form";
 
 export const addNewMovie = async ({ movie }: { movie: AddMovieFields }) =>
-  Request<TAddNewMovie>("/movies", "POST", { ...movie });
+  Request<TAddNewMovie>("/movies", "POST", { ...movie }, true);
+
+export const editMovie = async ({
+  movie,
+  id,
+}: {
+  movie: AddMovieFields;
+  id: string;
+}) => Request<TAddNewMovie>(`/movies/${id}`, "PATCH", { ...movie }, true);
 
 export const getMovies = async ({ page }: { page: number }) =>
-  Request<TgetMovies>(`/movies?page=${page}`, "GET", null);
+  Request<TgetMovies>(`/movies?page=${page}`, "GET", null, true);
 
 export const getEditMovie = async ({ movieId }: { movieId: string }) =>
-  Request<TGetMovie>(`/movies/${movieId}`, "GET", null);
+  Request<TGetMovie>(`/movies/${movieId}`, "GET", null, false);
 
-export const getTags = async () => Request<TGetTags>(`/tags`, "GET", null);
+export const getTags = async () =>
+  Request<TGetTags>(`/tags`, "GET", null, true);
 export const getDirectors = async () =>
-  Request<TGetDirectors>(`/directors`, "GET", null);
+  Request<TGetDirectors>(`/directors`, "GET", null, true);
 export const getStudios = async () =>
-  Request<TGetStudios>(`/studios`, "GET", null);
+  Request<TGetStudios>(`/studios`, "GET", null, true);
 export const getCategories = async () =>
-  Request<TGetCategories>(`/categories`, "GET", null);
+  Request<TGetCategories>(`/categories`, "GET", null, true);
 
 export const addSeason = async ({ title, id }: { title: string; id: string }) =>
-  Request<TAddSeason>(`/movies/${id}/seasons`, "POST", { title });
+  Request<TAddSeason>(`/movies/${id}/seasons`, "POST", { title }, true);
 
 export const editSeason = async ({
   title,
@@ -51,9 +61,14 @@ export const editSeason = async ({
   movieId: string;
   seasonId: string;
 }) =>
-  Request<TEditSeason>(`/movies/${movieId}/seasons/${seasonId}`, "PATCH", {
-    title,
-  });
+  Request<TEditSeason>(
+    `/movies/${movieId}/seasons/${seasonId}`,
+    "PATCH",
+    {
+      title,
+    },
+    true
+  );
 
 export const deleteSeason = async ({
   movieId,
@@ -65,175 +80,124 @@ export const deleteSeason = async ({
   Request<TDeleteSeason>(
     `/movies/${movieId}/seasons/${seasonId}`,
     "DELETE",
-    null
+    null,
+    true
   );
 
 export const addEpisode = async ({
   episode,
-  movieId,
   seasonId,
 }: {
   episode: AddEpisodeFields;
-  movieId: string;
   seasonId: string;
 }) =>
   Request<TAddEpisode>(
-    `/movies/${movieId}/seasons/${seasonId}/episodes`,
+    `/seasons/${seasonId}/episodes`,
     "POST",
     {
       ...episode,
-    }
+    },
+    true
   );
 
 export const editEpisode = async ({
   episode,
-  movieId,
-  seasonId,
   episodeId,
 }: {
   episode: AddEpisodeFields;
-  movieId: string;
-  seasonId: string;
   episodeId: string;
 }) =>
   Request<TAddEpisode>(
-    `/movies/${movieId}/seasons/${seasonId}/episodes/${episodeId}`,
+    `/episodes/${episodeId}`,
     "PATCH",
     {
       ...episode,
-    }
+    },
+    true
   );
 
-export const deleteEpisode = async ({
-  episodeId,
-  movieId,
-  seasonId,
-}: {
-  episodeId: string;
-  movieId: string;
-  seasonId: string;
-}) =>
-  Request<TDeleteEpisode>(
-    `/movies/${movieId}/seasons/${seasonId}/episodes/${episodeId}`,
-    "DELETE",
-    null
-  );
+export const deleteEpisode = async ({ episodeId }: { episodeId: string }) =>
+  Request<TDeleteEpisode>(`/episodes/${episodeId}`, "DELETE", null, true);
 export const addLanguage = async ({
   language,
-  movieId,
-  seasonId,
   episodeId,
 }: {
   language: AddLanguageFields;
-  movieId: string;
-  seasonId: string;
   episodeId: string;
 }) =>
   Request<TAddLanguage>(
-    `/movies/${movieId}/seasons/${seasonId}/episodes/${episodeId}/languages`,
+    `/episodes/${episodeId}/languages`,
     "POST",
     {
       ...language,
-    }
+    },
+    true
   );
 
 export const editLanguage = async ({
   language,
-  movieId,
-  seasonId,
-  episodeId,
   languageId,
 }: {
   language: AddLanguageFields;
-  movieId: string;
-  seasonId: string;
-  episodeId: string;
   languageId: string;
 }) =>
   Request<TEditLanguage>(
-    `/movies/${movieId}/seasons/${seasonId}/episodes/${episodeId}/languages/${languageId}`,
+    `/languages/${languageId}`,
     "PATCH",
     {
       ...language,
-    }
+    },
+    true
   );
 
-export const deleteLanguage = async ({
-  languageId,
-  movieId,
-  seasonId,
-  episodeId,
-}: {
-  languageId: string;
-  movieId: string;
-  seasonId: string;
-  episodeId: string;
-}) =>
-  Request<TDeleteLanguage>(
-    `/movies/${movieId}/seasons/${seasonId}/episodes/${episodeId}/languages/${languageId}`,
-    "DELETE",
-    null
-  );
+export const deleteLanguage = async ({ languageId }: { languageId: string }) =>
+  Request<TDeleteLanguage>(`/languages/${languageId}`, "DELETE", null, true);
 
 export const addResolution = async ({
   resolution,
-  movieId,
-  seasonId,
-  episodeId,
   languageId,
 }: {
   resolution: AddResolutionFields;
-  movieId: string;
-  seasonId: string;
-  episodeId: string;
   languageId: string;
 }) =>
   Request<TAddLanguage>(
-    `/movies/${movieId}/seasons/${seasonId}/episodes/${episodeId}/languages/${languageId}/resolutions`,
+    `/languages/${languageId}/resolutions`,
     "POST",
     {
       ...resolution,
-    }
+    },
+    true
   );
 
 export const editResolution = async ({
   resolution,
-  movieId,
-  seasonId,
-  episodeId,
-  languageId,
+
   resolutionId,
 }: {
   resolution: AddResolutionFields;
-  movieId: string;
-  seasonId: string;
-  episodeId: string;
-  languageId: string;
+
   resolutionId: string;
 }) =>
   Request<TAddLanguage>(
-    `/movies/${movieId}/seasons/${seasonId}/episodes/${episodeId}/languages/${languageId}/resolutions/${resolutionId}`,
+    `/resolutions/${resolutionId}`,
     "PATCH",
     {
       ...resolution,
-    }
+    },
+    true
   );
 
 export const deleteResolution = async ({
   resolutionId,
-  movieId,
-  seasonId,
-  episodeId,
-  languageId,
 }: {
   resolutionId: string;
-  movieId: string;
-  seasonId: string;
-  episodeId: string;
-  languageId: string;
 }) =>
   Request<TDeleteResolution>(
-    `/movies/${movieId}/seasons/${seasonId}/episodes/${episodeId}/languages/${languageId}/resolutions/${resolutionId}`,
+    `/resolutions/${resolutionId}`,
     "DELETE",
-    null
+    null,
+    true
   );
+
+export const deleteMovie = async ({ movieId }: { movieId: string }) =>
+  Request<TDeleteMovie>(`/movies/${movieId}`, "DELETE", null, true);

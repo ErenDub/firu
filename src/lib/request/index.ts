@@ -4,7 +4,8 @@ export type TResponse = { message: string; success: boolean; code: number };
 export const Request = async <Result>(
   route: string,
   method: "GET" | "POST" | "DELETE" | "PUT" | "PATCH",
-  body: Record<string | number, any> | BodyInit | null
+  body: Record<string | number, any> | BodyInit | null,
+  showMessage: boolean
 ) => {
   const envRoute = `${process.env.REACT_APP_LOCAL_URL1}${route}`;
   const header = GlobalAccessToken;
@@ -32,10 +33,7 @@ export const Request = async <Result>(
 
   if (response.ok) {
     const data = (await response.json()) as TLastResponse;
-    route !== "/users" &&
-      route !== "/auth/refresh-token" &&
-      data.message &&
-      toast.success(data.message);
+    showMessage && data.message && toast.success(data.message);
 
     return data.data;
   } else {

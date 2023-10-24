@@ -57,6 +57,20 @@ export const auth: Array<Route> = [
       },
     ],
   },
+  {
+    title: "მთავარი",
+    route: "/",
+    component: lazy(() => import("../../pages/main")),
+    permission: "",
+    children: [
+      {
+        title: "პროფილი",
+        route: "/profile",
+        component: lazy(() => import("../../pages/main/profile")),
+        permission: "",
+      },
+    ],
+  },
 ];
 export const mutual: Array<Route> = [
   {
@@ -64,7 +78,6 @@ export const mutual: Array<Route> = [
     route: "/",
     component: lazy(() => import("../../pages/main")),
     permission: "",
-
     children: [
       {
         title: "მთავარი",
@@ -78,6 +91,7 @@ export const mutual: Array<Route> = [
         component: lazy(() => import("../../pages/main/full-movie")),
         permission: "",
       },
+
       {
         title: "ძებნა",
         route: "search",
@@ -91,6 +105,12 @@ export const mutual: Array<Route> = [
         permission: "",
       },
     ],
+  },
+  {
+    title: "",
+    route: "watch/:movieId/:episodeId",
+    component: lazy(() => import("../../pages/main/full-movie/watch")),
+    permission: "",
   },
 ];
 export const routes = [...auth, ...unAuth, ...mutual];
